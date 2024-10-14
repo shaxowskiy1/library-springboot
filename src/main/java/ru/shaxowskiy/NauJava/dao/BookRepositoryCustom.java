@@ -9,7 +9,7 @@ import java.util.List;
 public interface BookRepositoryCustom {
     /**
      * Нахождение книг по автору или по названию
-     * @param author ватор книги
+     * @param author автор книги
      * @param title название книги
      * @return
      */

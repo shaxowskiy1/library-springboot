@@ -8,7 +8,6 @@ import ru.shaxowskiy.NauJava.models.Book;
 import ru.shaxowskiy.NauJava.models.Category;
 import ru.shaxowskiy.NauJava.repositories.BookRepository;
 import ru.shaxowskiy.NauJava.repositories.CategoryRepository;
-import ru.shaxowskiy.NauJava.services.CategoryService;
 import ru.shaxowskiy.NauJava.services.CategoryServiceImpl;
 
 import java.util.Optional;

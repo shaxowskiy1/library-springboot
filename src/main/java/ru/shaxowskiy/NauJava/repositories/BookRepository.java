@@ -9,9 +9,19 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
-
+    /**
+     * нахождение книг по атрибутам: автор или название
+     * @param author автор книги
+     * @param title название книги
+     * @return
+     */
     List<Book> findBooksByAuthorOrTitle(String author, String title);
 
+    /**
+     * Поиск книг по введённому значению названия категории
+     * @param title название категории
+     * @return
+     */
     @Query("SELECT b FROM Book b JOIN Category c ON b.category.id = c.id WHERE c.title = :title")
     List<Book> findBooksByCategory(String title);
 }

@@ -24,6 +24,10 @@ public class CategoryServiceImpl implements CategoryService {
         this.platformTransactionManager = platformTransactionManager;
     }
 
+    /**
+     * Удаление категории и книг по названию категории
+     * @param categoryTitle название категории
+     */
     @Override
     public void deleteCategory(String categoryTitle) {
         TransactionStatus status = platformTransactionManager.getTransaction(new

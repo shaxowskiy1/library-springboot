@@ -1,6 +1,5 @@
 package ru.shaxowskiy.NauJava.dao;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,12 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom{
         this.entityManager = entityManager;
     }
 
-
+    /**
+     *
+     * @param author ватор книги
+     * @param title название книги
+     * @return
+     */
     @Override
     public List<Book> findBooksByAuthorOrTitle(String author, String title) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -36,6 +40,11 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom{
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
+    /**
+     *
+     * @param title название категории
+     * @return
+     */
     @Override
     public List<Book> findBooksByCategory(String title) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
