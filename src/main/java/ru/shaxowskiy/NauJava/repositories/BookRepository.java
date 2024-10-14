@@ -1,43 +1,17 @@
 package ru.shaxowskiy.NauJava.repositories;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.shaxowskiy.NauJava.models.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-public class BookRepository implements CrudRepository<Book, Integer> {
+@Repository
+public interface BookRepository extends CrudRepository<Book, Long> {
 
-    private final List<Book> bookContainer;
+    List<Book> findBooksByAuthorOrTitle(String author, String title);
 
-    @Autowired
-    public BookRepository(List<Book> userContainer) {
-        this.bookContainer = userContainer;
-    }
-
-    @Override
-    public void create(Book entity) {
-        bookContainer.add(entity);
-    }
-
-
-    @Override
-    public Book read(Integer id) {
-        return bookContainer.stream()
-                .filter(book -> book.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public void update(Book entity) {
-        bookContainer.set(entity.getId(), entity);
-    }
-
-    @Override
-    public void delete(Integer id) {
-        bookContainer.removeIf(book -> book.getId() == id);
-    }
-
+    @Query("SELECT b FROM Book b JOIN Category c ON b.category.id = c.id WHERE c.title = :title")
+    List<Book> findBooksByCategory(String title);
 }

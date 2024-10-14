@@ -1,76 +1,54 @@
 package ru.shaxowskiy.NauJava.models;
 
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Entity
+@Table(name = "books")
 public class Book {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
+    @NotNull(message = "Title should not be empty")
+    @Size(max = 200, message = "Title should not be longer than 200 characters")
+    @Column(name = "title")
     private String title;
 
+    @NotNull(message = "Author should not be empty")
+    @Size(max = 100)
+    @Column(name = "author")
+    private String author;
+
+    @NotNull(message = "Isbn should not be empty")
+    @Size(max = 13, min = 13, message = "Isbn should not be longer or less than 13 characters")
+    @Column(name = "isbn")
     private Long isbn;
 
-    private int publicationYear;
+    @Min(value = 0, message = "Year must be at least 0")
+    @Max(value = 2024, message = "Year must be at most 2024")
+    private String publishedYear;
 
-    private boolean isAvailable;
+    @Size(max = 1000, message = "Description should not be longer than 1000 characters")
+    private String description;
 
-    public Book() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category category;
 
-    public Book(int id, String title, Long isbn, int publicationYear, boolean isAvailable) {
-        this.id = id;
-        this.title = title;
-        this.isbn = isbn;
-        this.publicationYear = publicationYear;
-        this.isAvailable = isAvailable;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Long getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(Long isbn) {
-        this.isbn = isbn;
-    }
-
-    public int getPublicationYear() {
-        return publicationYear;
-    }
-
-    public void setPublicationYear(int publicationYear) {
-        this.publicationYear = publicationYear;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", isbn=" + isbn +
-                ", publicationYear=" + publicationYear +
-                ", isAvailable=" + isAvailable +
-                '}';
-    }
+    @Min(value = 0, message = "Quantity should be >0")
+    @Column(columnDefinition = "int default 0")
+    private int quantity;
 }
