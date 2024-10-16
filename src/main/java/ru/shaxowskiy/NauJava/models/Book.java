@@ -32,8 +32,9 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @NotNull(message = "Isbn should not be empty")
-    @Size(max = 13, min = 13, message = "Isbn should not be longer or less than 13 characters")
+    //@NotNull(message = "Isbn should not be empty")
+    @Min(value = 13, message = "Isbn should be has a 13 characters")
+    @Max(value = 13, message = "Isbn should be has a 13 characters")
     @Column(name = "isbn")
     private Long isbn;
 

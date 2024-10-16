@@ -22,14 +22,20 @@ public class Review{
    private Long id;
 
     @NotNull
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User userId;
 
     @NotNull
-    private Long bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private Book bookId;
 
     @NotNull
+    @Column(name = "rating")
     private int rating;
 
+    @Column(name = "comment")
     private String comment;
 
     @Column(name = "created_at", updatable = false)

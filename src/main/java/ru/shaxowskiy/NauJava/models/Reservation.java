@@ -21,10 +21,14 @@ public class Reservation {
     private Long id;
 
     @NotNull
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User userId;
 
     @NotNull
-    private Long bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private Book bookId;
 
     @Column(name = "reservation_date", updatable = false)
     private LocalDateTime reservationDate;
@@ -32,6 +36,7 @@ public class Reservation {
     @Column(name = "return_date", updatable = false)
     private LocalDateTime returnDate;
 
+    @Column(name = "status")
     private String status;
 
 }

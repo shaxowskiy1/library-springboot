@@ -53,14 +53,14 @@ public class CustomMethodsTests {
         categoryRepository.save(category);
 
         Book book = new Book();
-        book.setTitle("Java 17");
+        book.setTitle(UUID.randomUUID().toString());
         book.setCategory(category);
-        book.setAuthor("Test author");
+        book.setAuthor(UUID.randomUUID().toString());
         bookRepository.save(book);
 
         Book book1 = new Book();
-        book1.setTitle("Java 18");
-        book1.setAuthor("Test");
+        book1.setTitle(UUID.randomUUID().toString());
+        book1.setAuthor(UUID.randomUUID().toString());
         book1.setCategory(category);
         bookRepository.save(book1);
         List<Book> foundBook = bookRepository.findBooksByCategory(title);

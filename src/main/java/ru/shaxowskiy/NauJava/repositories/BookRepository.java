@@ -2,12 +2,14 @@ package ru.shaxowskiy.NauJava.repositories;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import ru.shaxowskiy.NauJava.models.Book;
 
 import java.util.List;
 
 @Repository
+@RepositoryRestResource(path = "books")
 public interface BookRepository extends CrudRepository<Book, Long> {
     /**
      * нахождение книг по атрибутам: автор или название
