@@ -1,12 +1,11 @@
 package ru.shaxowskiy.NauJava.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,17 +21,22 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @NotNull(message = "First name should not be empty")
-    @Size(max = 50, message = "Write please characters less than 50 characters")
-    @Column(name = "first_name", unique = true, nullable = false)
+    @NotEmpty(message = "Username should not be empty")
+    @Size(min = 3, max = 50, message = "Username name must be between 3 and 50 characters in length")
+    @Column(name = "username")
+    private String username;
+
+    @NotEmpty(message = "First name should not be empty")
+    @Size(min = 3, max = 50, message = "First name name must be between 3 and 50 characters in length")
+    @Column(name = "first_name")
     private String firstName;
 
-    @NotNull(message = "Last name should not be empty")
-    @Size(max = 50, message = "Write please characters less than 50 characters")
-    @Column(name = "last_name", unique = true, nullable = false)
+    @NotEmpty(message = "Last name should not be empty")
+    @Size(min = 3, max = 50, message = "Last name must be between 3 and 50 characters in length")
+    @Column(name = "last_name")
     private String lastName;
 
-    @NotNull(message = "Password should not be empty")
+    @NotEmpty(message = "Password should not be empty")
     @Size(min = 6, message = "Password should be longer than 6 characters")
     private String password;
 
@@ -46,4 +50,10 @@ public class User {
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<Role> roles;
 }
