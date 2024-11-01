@@ -1,4 +1,4 @@
-package ru.shaxowskiy.NauJava.models;
+package ru.shaxowskiy.NauJava.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

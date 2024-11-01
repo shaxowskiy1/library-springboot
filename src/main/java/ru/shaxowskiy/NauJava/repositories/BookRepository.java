@@ -26,4 +26,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
      */
     @Query("SELECT b FROM Book b JOIN Category c ON b.category.id = c.id WHERE c.title = :title")
     List<Book> findBooksByCategory(String title);
+
+
 }

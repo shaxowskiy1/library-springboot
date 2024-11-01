@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.shaxowskiy.NauJava.models.Exception;
+import ru.shaxowskiy.NauJava.exception.Exception;
 
 @ControllerAdvice
 public class ExceptionControllerAdvice {

@@ -38,7 +38,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         if(userByUsername.isPresent()){
             throw new Exception("user already exist");
         }
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRoles(Role.USER);
         System.out.println(user.getRoles());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
@@ -51,7 +51,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         User user = userFound.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), mapRoles(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), mapRoles(Collections.singleton(user.getRoles())));
     }
     private Collection<GrantedAuthority> mapRoles(Set<Role> roles){
         return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.name())).collect(Collectors.toList());

@@ -52,8 +52,8 @@ public class User {
     private LocalDateTime createdAt;
 
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    //@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Set<Role> roles;
+    private Role roles;
 }
