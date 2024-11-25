@@ -3,6 +3,7 @@ package ru.shaxowskiy.NauJava.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.shaxowskiy.NauJava.models.enums.Status;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,11 +1,10 @@
 package ru.shaxowskiy.NauJava.services;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shaxowskiy.NauJava.models.Book;
 import ru.shaxowskiy.NauJava.models.Report;
-import ru.shaxowskiy.NauJava.models.Status;
+import ru.shaxowskiy.NauJava.models.enums.Status;
 import ru.shaxowskiy.NauJava.repositories.BookRepository;
 import ru.shaxowskiy.NauJava.repositories.ReportRepository;
 import ru.shaxowskiy.NauJava.repositories.UserRepository;

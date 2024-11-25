@@ -30,8 +30,7 @@ public class UserController {
     public String registerUser(@ModelAttribute("user") @Valid User user,
                                BindingResult bindingResult, Model model)
     {
-        if (bindingResult.hasErrors())
-        {
+        if (bindingResult.hasErrors()) {
             return "registration";
         }
         try {

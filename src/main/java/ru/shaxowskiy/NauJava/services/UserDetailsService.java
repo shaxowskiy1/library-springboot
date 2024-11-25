@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.shaxowskiy.NauJava.models.Role;
+import ru.shaxowskiy.NauJava.models.enums.Role;
 import ru.shaxowskiy.NauJava.models.User;
 import ru.shaxowskiy.NauJava.repositories.UserRepository;
 
@@ -38,7 +38,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         if(userByUsername.isPresent()){
             throw new Exception("user already exist");
         }
-        user.setRoles(Role.USER);
+        user.setRoles(Collections.singleton(Role.USER));
         System.out.println(user.getRoles());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
@@ -51,7 +51,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         User user = userFound.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), mapRoles(Collections.singleton(user.getRoles())));
+        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), mapRoles(Collections.singleton(Role.USER)));
     }
     private Collection<GrantedAuthority> mapRoles(Set<Role> roles){
         return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.name())).collect(Collectors.toList());

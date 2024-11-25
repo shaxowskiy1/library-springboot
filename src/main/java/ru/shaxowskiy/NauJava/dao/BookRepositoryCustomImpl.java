@@ -10,7 +10,7 @@ import ru.shaxowskiy.NauJava.models.Category;
 import java.util.List;
 
 @Repository
-public class BookRepositoryCustomImpl implements BookRepositoryCustom{
+public class    BookRepositoryCustomImpl implements BookRepositoryCustom{
 
     private EntityManager entityManager;
 

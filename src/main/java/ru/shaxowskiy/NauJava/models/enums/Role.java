@@ -1,4 +1,4 @@
-package ru.shaxowskiy.NauJava.models;
+package ru.shaxowskiy.NauJava.models.enums;
 
 public enum Role {
 

@@ -3,7 +3,7 @@ package ru.shaxowskiy.NauJava.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-
+import ru.shaxowskiy.NauJava.models.enums.Role;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -52,8 +52,9 @@ public class User {
     private LocalDateTime createdAt;
 
 
-    //@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role roles;
+    private Set<Role> roles;
 }
