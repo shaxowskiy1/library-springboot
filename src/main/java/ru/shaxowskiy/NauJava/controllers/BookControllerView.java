@@ -51,6 +51,7 @@ public class BookControllerView {
         logger.info("Показ книги по айди для резервирования");
         model.addAttribute("book", bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")));
         model.addAttribute("people", userService.findAll());
+        model.addAttribute("reservationsWithId", reservationService.findByBookId(id));
         return "/books/bookViewIdReserve";
     }
 
@@ -65,6 +66,20 @@ public class BookControllerView {
 
         User user = userService.findById(selectedPersonId);
         reservationService.reserveBook(bookId, user.getId());
+
+        return "redirect:/books/view/reserve/" + bookId;
+    }
+    @PostMapping("/return")
+    public String returnBook(@RequestParam("selectedPerson") Long selectedPersonId,
+                              @RequestParam("bookId") Long bookId) {
+        logger.info("Метод returnBook с параметрами: selectedPersonId={}, bookId={}", selectedPersonId, bookId);
+
+        if (selectedPersonId == null || bookId == null) {
+            throw new IllegalArgumentException("ID не должен быть null");
+        }
+
+        User user = userService.findById(selectedPersonId);
+        reservationService.returnBook(bookId, user.getId());
 
         return "redirect:/books/view/reserve/" + bookId;
     }
