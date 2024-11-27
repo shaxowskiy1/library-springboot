@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.shaxowskiy.NauJava.models.Book;
 import ru.shaxowskiy.NauJava.models.User;
 import ru.shaxowskiy.NauJava.repositories.BookRepository;
+import ru.shaxowskiy.NauJava.services.BookService;
 import ru.shaxowskiy.NauJava.services.ReservationService;
 import ru.shaxowskiy.NauJava.services.UserService;
 
@@ -19,6 +20,7 @@ import java.security.Principal;
 @RequestMapping("/books/view")
 public class BookControllerView {
 
+    private final BookService bookService;
     Logger logger = LoggerFactory.getLogger(BookControllerView.class);
 
     private final ReservationService reservationService;
@@ -26,16 +28,19 @@ public class BookControllerView {
     private BookRepository bookRepository;
 
     @Autowired
-    public BookControllerView(BookRepository bookRepository, ReservationService reservationService, UserService userService) {
+    public BookControllerView(BookRepository bookRepository, ReservationService reservationService, UserService userService, BookService bookService) {
         this.bookRepository = bookRepository;
         this.reservationService = reservationService;
         this.userService = userService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/list")
-    public String booksListView(Model model){
+    public String booksListView(@RequestParam(value = "title", required = false) String title, Model model){
         logger.info("Показ всех книг ");
-        model.addAttribute("books", bookRepository.findAll());
+
+        model.addAttribute("title", bookRepository.findByTitleContainingIgnoreCase(title));
+        model.addAttribute("books", bookService.findAll());
         return "/books/booksList";
     }
 
