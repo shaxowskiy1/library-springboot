@@ -45,4 +45,14 @@ public class UserController {
     public String loginPage() {
         return "login";
     }
+
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable String code){
+        System.out.println("in activate method");
+        boolean isActivated = userDetailsService.activateUser(code);
+
+        String messageAboutAuthorize = isActivated ? "User successfully activated" : "Activation code is not found";
+        model.addAttribute("message", messageAboutAuthorize);
+        return "login";
+    }
 }

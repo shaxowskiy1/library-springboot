@@ -8,6 +8,12 @@ import ru.shaxowskiy.NauJava.models.enums.StatusReserving;
 
 import java.time.LocalDateTime;
 
+/**
+ * Класс Reservation представляет сущность Резервирования
+ * Он содержит информацию о книге: уникальный идентификатор сущности,
+ * уникальные идентификаторы книги и пользьзователя, дату резервации и
+ * дату возврата(изначально +14 к reservationDate), статус резервации
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

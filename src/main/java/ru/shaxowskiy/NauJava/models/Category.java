@@ -5,6 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+/**
+ * Класс Category представляет сущность Категорий книг
+ * Он содержит информацию о книге: уникальный идентификатор сущности, название и описание категории
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

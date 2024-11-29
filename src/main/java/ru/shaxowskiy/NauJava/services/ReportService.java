@@ -30,6 +30,10 @@ public class ReportService {
 
     }
 
+    /**
+     * Получить все отчёты
+     * @return
+     */
     public List<Report> getReports(){
         return reportRepository.findAll();
     }
@@ -99,6 +103,12 @@ public class ReportService {
         reportRepository.save(report);
 }
 
+    /**
+     * Обработка асинхронного метода получения отчёта по книгам
+     * @param booksCount
+     * @param report
+     * @return
+     */
     private String setBooksInfo(CompletableFuture<List<Book>> booksCount, Report report) {
         StringBuilder booksInfo = new StringBuilder();
 
@@ -117,6 +127,12 @@ public class ReportService {
         return booksInfo.toString();
     }
 
+    /**
+     * Обработка асинхронного метода получения отчёта по юзерам
+     * @param userCount
+     * @param report
+     * @return
+     */
     private String setUserCount(CompletableFuture<Long> userCount, Report report) {
         StringBuilder sb = new StringBuilder();
 

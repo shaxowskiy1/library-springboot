@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import ru.shaxowskiy.NauJava.models.enums.Status;
 
+/**
+ * Класс Report представляет сущность Отчёт
+ * Он содержит информацию о книге: уникальный идентификатор сущности, статус генерации и описание отчёта
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

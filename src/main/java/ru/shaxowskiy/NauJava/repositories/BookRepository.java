@@ -27,6 +27,11 @@ public interface BookRepository extends CrudRepository<Book, Long> {
     @Query("SELECT b FROM Book b JOIN Category c ON b.category.id = c.id WHERE c.title = :title")
     List<Book> findBooksByCategory(String title);
 
+    /**
+     * Поиск по названию книги, игнорируя регистр
+     * @param title название книги
+     * @return
+     */
     List<Book> findByTitleContainingIgnoreCase(String title);
 
 }

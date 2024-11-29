@@ -48,6 +48,9 @@ public class BookControllerView {
     public String bookViewId(Model model, @PathVariable("id") Long id){
         logger.info("Показ книги по айди");
         model.addAttribute("book", bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")));
+        String currentUrl = "http://localhost:8080/books/view/" + id;
+        model.addAttribute("url", currentUrl);
+        model.addAttribute("shareText", "Посмотрите что я нашёл на сайте Library!");
         return "/books/bookViewId";
     }
 

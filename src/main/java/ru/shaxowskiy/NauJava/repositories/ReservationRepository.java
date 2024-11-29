@@ -11,7 +11,18 @@ import java.util.List;
 
 @RepositoryRestResource(path = "reservations")
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+    /**
+     * Поиск по книге и пользователю, который зарезерировал
+     * @param book книга
+     * @param user пользователь
+     * @return
+     */
     Reservation findByBookIdAndUserId(Book book, User user);
 
+    /**
+     * поиск всех книг по айди книги
+     * @param book книга
+     * @return
+     */
     List<Reservation> findAllByBookId(Book book);
 }

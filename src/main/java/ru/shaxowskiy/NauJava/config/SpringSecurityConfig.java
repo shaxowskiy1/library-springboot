@@ -22,7 +22,7 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/auth/registration").permitAll()
+                        .requestMatchers( "/auth/registration", "/auth/activate/").permitAll()
                         .requestMatchers("/swagger-ui/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form

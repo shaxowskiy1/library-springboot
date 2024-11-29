@@ -7,6 +7,12 @@ import ru.shaxowskiy.NauJava.models.enums.Role;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+/**
+ * Класс User представляет сущность Пользователь
+ * Он содержит информацию о книге: уникальный идентификатор сущности,
+ * уникальный никнейм, имя фамилию, почтовый ящик, активационный код для подтверждения,
+ * дату создания аккаунта и роль
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -44,13 +50,14 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "activation_code")
+    private String activationCode;
 
     @Column(name = "phone")
     private Long phone;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
-
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))

@@ -18,6 +18,10 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * Поиск всех книг
+     * @return список книг
+     */
     public List<Book> findAll(){
         List<Book> bookList = new ArrayList<>();
         bookRepository.findAll().forEach(bookList::add);

@@ -8,6 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+/**
+ * Класс Book представляет сущность Книга
+ * Он содержит информацию о книге: уникальный идентификатор сущности, название, автора,
+ * уникальный идентификатор книги, год публикации книги, кракое описание книги,
+ * категорию и количество
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
