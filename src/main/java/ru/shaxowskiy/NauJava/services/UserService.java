@@ -26,6 +26,6 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found                                     "));
     }
 }

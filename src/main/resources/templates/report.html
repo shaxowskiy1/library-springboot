@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="report : ${report}">
+        <td th:text="${report.getId()}"></td>
+        <td th:text="${report.getStatus()}"></td>
+        <td th:text="${report.getDescription()}"></td>
+    </tr>
+    <tr th:if="${report == null}">
+        <td colspan="3" style="text-align: center;">report is not found</td>
+    </tr>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package ru.shaxowskiy.NauJava.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shaxowskiy.NauJava.models.Book;
@@ -26,5 +27,9 @@ public class BookService {
         List<Book> bookList = new ArrayList<>();
         bookRepository.findAll().forEach(bookList::add);
         return bookList;
+    }
+
+    public Book findById(Long id){
+        return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book not found"));
     }
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserving book</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<p th:text="'Название: ' + ${book.getTitle()}"></p>
+<p th:text="'Айди: ' + ${book.getId()}"></p>
+<p th:text="'Автор и год публикации: ' + ${book.getAuthor()} + ' ' + ${book.getPublishedYear()}"></p>
+<p th:text="'Isbn: ' + ${book.getIsbn()}"></p>
+<p th:text="'Описание: ' + ${book.getDescription()}"></p>
+
+<p th:text="РЕЗЕРВИРОВАНИЕ"></p>
+<p>Book ID: <span th:text="${book.getId()}"></span></p>
+<form th:action="@{/books/view/reserve}" th:method="post">
+    <select name="selectedPerson" required>
+        <option value="" disabled selected>Выберите человека</option>
+        <option th:each="person : ${people}"
+                th:value="${person.getId()}"
+                th:text="${person.getUsername()}"></option>
+    </select>
+    <input type="hidden" name="bookId" th:value="${book.getId()}" />
+    <button type="submit">Зарезервировать</button>
+    <input type="hidden" name="bookId" th:value="${book.getId()}" />
+</form>
+<form th:action="@{/books/view/return}" th:method="post">
+    <select name="selectedPerson" required>
+        <option value="" disabled selected>Выберите человека</option>
+        <option th:each="person : ${people}"
+                th:value="${person.getId()}"
+                th:text="${person.getUsername()}"></option>
+    </select>
+    <input type="hidden" name="bookId" th:value="${book.getId()}" />
+    <button type="submit">Вернуть</button>
+</form>
+<hr>
+<br>
+<form action="#" method="get">
+    <input type="text" name="username" placeholder="Search by username" th:value="${searchUsername}" />
+    <button type="submit">Search</button>
+</form>
+<h1>Reservations List for Title of book is <span th:text="${book.getTitle()}"></span></h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Status</th>
+    </tr>
+    <tr th:each="reservation : ${reservationsWithId}">
+        <td th:text="${reservation.getId()}"></td>
+        <td th:text="${reservation.getUserId().getUsername()}"></td>
+        <td th:text="${reservation.getStatus() != null ? reservation.getStatus() : 'нет статуса'}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

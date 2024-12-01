@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<p th:text="'Название: ' + ${book.getTitle()}"/>
+<p th:text="'Айди: ' + ${book.getId()}"/>
+<p th:text="'Автор и год публикации: ' + ${book.getAuthor()} + ' ' + ${book.getPublishedYear()}"/>
+<p th:text="'Isbn: ' + ${book.getIsbn()}"/>
+<p th:text="'Описание: ' + ${book.getDescription()}"/>
+<hr>
+<a th:href="@{https://t.me/share/url(url=${url}, text=${shareText})}" target="_blank">Поделиться в Telegram</a>
+<hr>
+<div th:if="${reviews.isEmpty()}">
+    <h2>У этой книги нет отзывов, но вы можете стать первым.</h2>
+</div>
+
+<p th:each="review : ${reviews}">
+    <a th:text="'Имя пользователя: ' + ${review.getUserId().getFirstName()}"></a>
+    <a th:text="'Оценка: ' + ${review.getRating()}"></a>
+    <a th:text="'Текст отзыва: ' + ${review.getComment()}"></a>
+    <a th:text="'Дата создания отзыва: ' + ${review.getCreatedAt()}"></a>
+</p>
+
+<form th:method="POST" th:action="@{/books/view/{id}(id=${review.getBookId().getId()})}" th:object="${review}">
+    <label for="rating">Enter rating (1-5): </label>
+    <input type="number" th:field="*{rating}" id="rating" min="1" max="5" required/>
+    <div style="color:red" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Rating Error</div>
+    <br/>
+
+    <label for="comment">Enter comment: </label>
+    <textarea th:field="*{comment}" id="comment" required></textarea>
+    <div style="color:red" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</div>
+    <br/>
+
+    <input type="submit" value="Submit Review"/>
+</form>
+
+
+</body>
+</html>

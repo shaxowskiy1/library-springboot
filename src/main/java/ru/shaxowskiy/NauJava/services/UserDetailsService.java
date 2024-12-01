@@ -87,8 +87,10 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         User user = userFound.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), mapRoles(Collections.singleton(Role.USER)));
-    }
+        Set<Role> roles = user.getRoles();
+        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), mapRoles(roles));    }
+
+
     private Collection<GrantedAuthority> mapRoles(Set<Role> roles){
         return roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.name())).collect(Collectors.toList());
     }

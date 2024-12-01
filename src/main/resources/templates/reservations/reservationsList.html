@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservations</title>
+</head>
+<body>
+<h1>Reservations List</h1>
+<div th:insert="~{fragment :: header}"></div>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Title</th>
+    <th>Status</th>
+  </tr>
+  <tr th:each="reservation : ${reservations}">
+    <td th:text="${reservation.getId()}"></td>
+    <td th:text="${reservation.getUserId().getUsername()}"></td>
+    <td th:text="${reservation.getBookId().getTitle()}"></td>
+    <td th:text="${reservation.getStatus() != null ? reservation.getStatus() : 'нет статуса'}"></td>
+  </tr>
+</table>
+</body>
+</html>
