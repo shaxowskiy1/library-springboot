@@ -58,4 +58,5 @@ public class Book {
     @Min(value = 0, message = "Quantity should be >0")
     @Column(columnDefinition = "int default 0")
     private int quantity;
+
 }

@@ -22,13 +22,13 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/auth/registration", "/auth/activate/").permitAll()
-                        .requestMatchers("/swagger-ui/**", "books/view/reserve/**").hasRole("ADMIN")
+                        .requestMatchers( "/auth/registration", "/auth/activate/", "/").permitAll()
+                        .requestMatchers("/swagger-ui/**", "books/view/reserve/**", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/auth/login")
-                        .defaultSuccessUrl("/books/view/list").permitAll())
+                        .defaultSuccessUrl("/auth/profile").permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/auth/login")

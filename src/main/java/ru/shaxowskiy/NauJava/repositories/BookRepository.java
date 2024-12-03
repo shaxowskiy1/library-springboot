@@ -1,5 +1,6 @@
 package ru.shaxowskiy.NauJava.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RepositoryRestResource(path = "books")
-public interface BookRepository extends CrudRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * нахождение книг по атрибутам: автор или название
      * @param author автор книги

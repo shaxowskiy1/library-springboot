@@ -12,9 +12,7 @@
 <p th:text="'Isbn: ' + ${book.getIsbn()}"></p>
 <p th:text="'Описание: ' + ${book.getDescription()}"></p>
 
-<p th:text="РЕЗЕРВИРОВАНИЕ"></p>
-<p>Book ID: <span th:text="${book.getId()}"></span></p>
-<form th:action="@{/books/view/reserve}" th:method="post">
+<form th:action="@{/admin/reserve}" th:method="post">
     <select name="selectedPerson" required>
         <option value="" disabled selected>Выберите человека</option>
         <option th:each="person : ${people}"
@@ -23,9 +21,9 @@
     </select>
     <input type="hidden" name="bookId" th:value="${book.getId()}" />
     <button type="submit">Зарезервировать</button>
-    <input type="hidden" name="bookId" th:value="${book.getId()}" />
 </form>
-<form th:action="@{/books/view/return}" th:method="post">
+
+<form th:action="@{/admin/return}" th:method="post">
     <select name="selectedPerson" required>
         <option value="" disabled selected>Выберите человека</option>
         <option th:each="person : ${people}"
@@ -35,6 +33,7 @@
     <input type="hidden" name="bookId" th:value="${book.getId()}" />
     <button type="submit">Вернуть</button>
 </form>
+
 <hr>
 <br>
 <form action="#" method="get">

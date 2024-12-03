@@ -22,4 +22,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * @return пользователь
      */
     User findByActivationCode(String code);
+
 }

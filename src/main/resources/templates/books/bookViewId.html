@@ -25,7 +25,7 @@
     <a th:text="'Дата создания отзыва: ' + ${review.getCreatedAt()}"></a>
 </p>
 
-<form th:method="POST" th:action="@{/books/view/{id}(id=${review.getBookId().getId()})}" th:object="${review}">
+<form th:method="POST" th:action="@{/books/view/{id}(id=${book.getId()})}" th:object="${review}">
     <label for="rating">Enter rating (1-5): </label>
     <input type="number" th:field="*{rating}" id="rating" min="1" max="5" required/>
     <div style="color:red" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Rating Error</div>

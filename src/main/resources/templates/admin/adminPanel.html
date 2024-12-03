@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<div th:fragment="header" style="position: relative; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; gap: 20px;">
+        <a href="/admin/view/reserve">Управление резервациями</a>
+        <a href="/admin/userList">Управление пользователями</a>
+    </div>
+</div>
+</body>
+</html>

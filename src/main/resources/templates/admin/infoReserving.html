@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserving</title>
+</head>
+<body>
+<div>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Quantity</th>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.getId()}"></td>
+            <td>
+                <a th:href="@{/admin/view/reserve/{id}(id=${book.getId()})}">
+                    <span th:text="${book.getTitle()}"></span>
+                </a>
+            </td>
+            <td th:text="${book.getQuantity()}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

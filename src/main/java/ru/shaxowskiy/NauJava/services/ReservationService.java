@@ -57,11 +57,7 @@ public class ReservationService {
      * @param bookId айди желаемой книги
      * @param userId айди юзера
      */
-    public void reserveBook(Long bookId, Long userId){
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found"));
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+    public void reserveBook(Book book, User user){
         Reservation reservation = new Reservation();
         reservation.setBookId(book);
         reservation.setUserId(user);
@@ -122,4 +118,10 @@ public class ReservationService {
                 + "С уважением, библиотека 'Duke'";
         mailSenderService.send(user.getEmail(), subject, message);
     }
+
+    public List<Reservation> findByUserId(User user) {
+        return reservationRepository.findByUserId(user);
+    }
+
+
 }

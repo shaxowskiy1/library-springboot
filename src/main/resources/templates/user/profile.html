@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<div>
+    <h2>User Profile</h2>
+    <p>Username: <span th:text="${user.getUsername()}"></span></p>
+    <p>Email: <span th:text="${user.getEmail()}"></span></p>
+    <p>Roles:</p>
+    <ul>
+        <li th:each="role : ${user.getRoles()}" th:text="${role.name()}"></li>
+    </ul>
+    <hr>
+    <h2>My reservation</h2>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Date of reservation</th>
+            <th>Date Return</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="reservation : ${reservationByUser}">
+            <td th:text="${reservation.getBookId().getTitle()}"></td>
+            <td th:text="${reservation.getReservationDate()}"></td>
+            <td th:text="${reservation.getReturnDate() != null ? reservation.getReturnDate() : 'нет даты'}"></td>
+            <td th:text="${reservation.getStatus() != null ? reservation.getStatus() : 'нет статуса' }"></td>
+        </tr>
+    </table>
+</div>
+<div th:if="${reservationByUser.isEmpty()}">
+    <h2>Резервации отсутствуют, вы можете арендовать себе книгу</h2>
+</div>
+
+
+</body>
+</html>

@@ -5,10 +5,18 @@
     <title>Fragments</title>
 </head>
 <body>
-<div th:fragment="header">
-    <form action="/logout" th:method="post">
+
+
+<div th:fragment="header" style="position: relative; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; gap: 20px;">
+        <a href="/books/view/list">Все книги</a>
+        <a href="/auth/profile">Профиль</a>
+        <a href="/admin">Панель администратора</a>
+    </div>
+    <form action="/logout" th:method="post" style="margin: 0;">
         <button type="submit">Logout</button>
     </form>
 </div>
+
 </body>
 </html>

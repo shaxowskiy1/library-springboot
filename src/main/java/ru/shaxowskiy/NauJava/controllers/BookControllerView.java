@@ -2,6 +2,8 @@ package ru.shaxowskiy.NauJava.controllers;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.OptimisticLockException;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,13 @@ import ru.shaxowskiy.NauJava.services.UserService;
 
 import java.security.Principal;
 
+@Slf4j
 @Controller
 @RequestMapping("/books/view")
 public class BookControllerView {
 
     private final BookService bookService;
     private final ReviewService reviewService;
-    Logger logger = LoggerFactory.getLogger(BookControllerView.class);
-
     private final ReservationService reservationService;
     private final UserService userService;
     private BookRepository bookRepository;
@@ -45,7 +46,7 @@ public class BookControllerView {
 
     @GetMapping("/list")
     public String booksListView(@RequestParam(value = "title", required = false) String title, Model model){
-        logger.info("Показ всех книг ");
+        log.info("Показ всех книг ");
 
         model.addAttribute("title", bookRepository.findByTitleContainingIgnoreCase(title));
         model.addAttribute("books", bookService.findAll());
@@ -54,7 +55,7 @@ public class BookControllerView {
 
     @GetMapping("/{id}")
     public String bookViewId(Model model, @PathVariable("id") Long id){
-        logger.info("Показ книги по айди");
+        log.info("Показ книги по айди");
         Book foundBook = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
         model.addAttribute("book", foundBook);
         model.addAttribute("reviews", reviewService.findByBookId(foundBook));
@@ -62,78 +63,41 @@ public class BookControllerView {
         model.addAttribute("url", currentUrl);
         model.addAttribute("shareText", "Посмотрите что я нашёл на сайте Library!");
 
-        Review reviewForBookWithId = new Review();
-        reviewForBookWithId.setBookId(foundBook);
-        logger.info("Книга для установки отзыва равна {}", foundBook);
-        model.addAttribute("review", reviewForBookWithId);
+
+        log.info("Книга для установки отзыва равна {}", foundBook);
+        model.addAttribute("review", new Review());
         return "/books/bookViewId";
     }
 
     @PostMapping("/{id}")
     public String submitReview(@PathVariable Long id,
-                               @ModelAttribute("review") Review review,
+                               @ModelAttribute("review") @Valid Review review,
                                BindingResult result,
                                Model model,
                                Principal principal) {
-        logger.info("Юзер оставляет свой отзыв");
-        if (result.hasErrors()) {
-            model.addAttribute("review", review);
-            return "books/bookViewId";
-        }
-        User user = userService.findByUsername(principal.getName());
-        Book book = bookService.findById(id);
+        log.info("Начало: POST submit review");
+//        if (result.hasErrors()) {
+//            //model.addAttribute("review", review);
+//            return "books/bookViewId";
+//        }
 
-        review.setBookId(book);
-        review.setUserId(user);
+
+        User user = userService.findByUsername(principal.getName());
+        log.info("Юзер оставляет свой отзыв с именем {}", user);
+        Book book = bookService.findById(id);
+        log.info("Книга для отзыва: {}", book);
+        
         try {
-            reviewService.addReview(review);
+            reviewService.addReview(review, user, book);
         } catch (OptimisticLockException e) {
-            logger.error("Ошибка при обновлении отзыва: ", e);
+            log.error("Ошибка при обновлении отзыва: ", e);
             model.addAttribute("errorMessage", "Отзыв был обновлён другим пользователем. Пожалуйста, повторите попытку.");
-            model.addAttribute("review", review);
-            return "books/bookViewId"; // Возвращаемся на страницу
+            return "books/bookViewId";
 
         }
         return "redirect:/books/view/" + id;
     }
 
-    @GetMapping("/reserve/{id}")
-    public String bookViewIdForReserve(Model model, @PathVariable("id") Long id){
-        logger.info("Показ книги по айди для резервирования");
-        model.addAttribute("book", bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found")));
-        model.addAttribute("people", userService.findAll());
-        model.addAttribute("reservationsWithId", reservationService.findByBookId(id));
-        return "/books/bookViewIdReserve";
-    }
-
-    @PostMapping("/reserve")
-    public String reserveBook(@RequestParam("selectedPerson") Long selectedPersonId,
-                              @RequestParam("bookId") Long bookId) {
-        logger.info("Метод reserveBook с параметрами: selectedPersonId={}, bookId={}", selectedPersonId, bookId);
-
-        if (selectedPersonId == null || bookId == null) {
-            throw new IllegalArgumentException("ID не должен быть null");
-        }
-
-        User user = userService.findById(selectedPersonId);
-        reservationService.reserveBook(bookId, user.getId());
-
-        return "redirect:/books/view/reserve/" + bookId;
-    }
-    @PostMapping("/return")
-    public String returnBook(@RequestParam("selectedPerson") Long selectedPersonId,
-                              @RequestParam("bookId") Long bookId) {
-        logger.info("Метод returnBook с параметрами: selectedPersonId={}, bookId={}", selectedPersonId, bookId);
-
-        if (selectedPersonId == null || bookId == null) {
-            throw new IllegalArgumentException("ID не должен быть null");
-        }
-
-        User user = userService.findById(selectedPersonId);
-        reservationService.returnBook(bookId, user.getId());
-
-        return "redirect:/books/view/reserve/" + bookId;
-    }
 
     @GetMapping("/error")
     @ExceptionHandler(AccessDeniedException.class)

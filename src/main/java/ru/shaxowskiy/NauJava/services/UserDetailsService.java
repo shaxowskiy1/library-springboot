@@ -60,7 +60,6 @@ public class UserDetailsService implements org.springframework.security.core.use
             );
             System.out.println("Sending email to: " + user.getEmail());
             try {
-
                 mailSenderService.send(user.getEmail().trim(), "Activation code", message);
             } catch (Exception e){
                 System.err.println("Failed send message " + e.getMessage());
@@ -88,7 +87,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         User user = userFound.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Set<Role> roles = user.getRoles();
-        return new org.springframework.security.core.userdetails.User(user.getFirstName(), user.getPassword(), mapRoles(roles));    }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRoles(roles));    }
 
 
     private Collection<GrantedAuthority> mapRoles(Set<Role> roles){
