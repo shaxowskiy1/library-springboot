@@ -12,6 +12,8 @@ import ru.shaxowskiy.NauJava.services.BookService;
 import ru.shaxowskiy.NauJava.services.ReservationService;
 import ru.shaxowskiy.NauJava.services.UserService;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 @RequestMapping("/admin")
@@ -29,12 +31,14 @@ public class AdminController {
 
     @GetMapping("/view/reserve")
     public String getAllInfoAboutReserveBooks(Model model){
+        log.info("Показ всех книг для резервирования");
         model.addAttribute("books", bookService.findAll());
         return "/admin/infoReserving";
     }
 
     @GetMapping("/view/reserve/{id}")
-    public String bookViewIdForReserve(Model model, @PathVariable("id") Long id){
+    public String bookViewIdForReserve(Model model, @PathVariable("id") Long id,
+                                       @RequestParam(value = "username", required = false) String username){
         log.info("Показ книги по айди для резервирования");
         log.info("Страница для запрашиваемой книги с id {}", id);
         Book book = bookService.findById(id);
@@ -44,24 +48,32 @@ public class AdminController {
         model.addAttribute("reservationsWithId", reservationService.findByBookId(id));
         return "/books/bookViewIdReserve";
     }
-    //path?? /view
+
     @PostMapping("/reserve")
     public String reserveBook(@RequestParam("selectedPerson") Long selectedPersonId,
                               @RequestParam("bookId") Long bookId) {
         log.info("Метод reserveBook с параметрами: selectedPersonId={}, bookId={}", selectedPersonId, bookId);
 
-        if (selectedPersonId == null || bookId == null) {
-            throw new IllegalArgumentException("ID не должен быть null");
+        User user = userService.findById(selectedPersonId);
+        if (user == null) {
+            log.error("Пользователь с ID {} не найден", selectedPersonId);
+            return "redirect:/error?message=User not found";
         }
 
-        User user = userService.findById(selectedPersonId);
         log.info("Метод reserveBook с параметрами: user={}", user);
 
         Book book = bookService.findById(bookId);
+        if (book == null) {
+            log.error("Книга с ID {} не найдена", bookId);
+            return "redirect:/error?message=Book not found";
+        }
+
+        log.info("Метод reserveBook с параметрами: book={}", book);
         reservationService.reserveBook(book, user);
-        log.info("Метод reserveBook с параметрами: user={}", user);
-        return "redirect:/books/view/reserve/" + bookId;
+        return "redirect:/admin/view/reserve/" + bookId;
     }
+
+
     @PostMapping("/return")
     public String returnBook(@RequestParam("selectedPerson") Long selectedPersonId,
                              @RequestParam("bookId") Long bookId) {
@@ -74,7 +86,7 @@ public class AdminController {
         User user = userService.findById(selectedPersonId);
         reservationService.returnBook(bookId, user.getId());
 
-        return "redirect:/books/view/reserve/" + bookId;
+        return "redirect:/admin/view/reserve/" + bookId;
     }
 
     @GetMapping

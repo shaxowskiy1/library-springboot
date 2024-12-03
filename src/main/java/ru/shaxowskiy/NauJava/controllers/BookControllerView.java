@@ -69,7 +69,7 @@ public class BookControllerView {
         return "/books/bookViewId";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/review")
     public String submitReview(@PathVariable Long id,
                                @ModelAttribute("review") @Valid Review review,
                                BindingResult result,
@@ -86,7 +86,6 @@ public class BookControllerView {
         log.info("Юзер оставляет свой отзыв с именем {}", user);
         Book book = bookService.findById(id);
         log.info("Книга для отзыва: {}", book);
-        
         try {
             reviewService.addReview(review, user, book);
         } catch (OptimisticLockException e) {

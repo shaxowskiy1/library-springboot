@@ -18,14 +18,8 @@
     <h2>У этой книги нет отзывов, но вы можете стать первым.</h2>
 </div>
 
-<p th:each="review : ${reviews}">
-    <a th:text="'Имя пользователя: ' + ${review.getUserId().getFirstName()}"></a>
-    <a th:text="'Оценка: ' + ${review.getRating()}"></a>
-    <a th:text="'Текст отзыва: ' + ${review.getComment()}"></a>
-    <a th:text="'Дата создания отзыва: ' + ${review.getCreatedAt()}"></a>
-</p>
 
-<form th:method="POST" th:action="@{/books/view/{id}(id=${book.getId()})}" th:object="${review}">
+<form th:method="POST" th:action="@{/books/view/{id}/review(id=${book.getId()})}" th:object="${review}">
     <label for="rating">Enter rating (1-5): </label>
     <input type="number" th:field="*{rating}" id="rating" min="1" max="5" required/>
     <div style="color:red" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Rating Error</div>
@@ -38,6 +32,19 @@
 
     <input type="submit" value="Submit Review"/>
 </form>
+<br><br>
+<div th:each="review : ${reviews}">
+    <a th:text="'Имя пользователя: ' + ${review.getUserId().getFirstName()}"></a>
+    <br>
+    <a th:text="'Оценка: ' + ${review.getRating()}"></a>
+    <br>
+    <a th:text="'Текст отзыва: ' + ${review.getComment()}"></a>
+    <br>
+    <a th:text="'Дата создания отзыва: ' + ${review.getCreatedAt()}"></a>
+    <hr>
+</div>
+
+
 
 
 </body>

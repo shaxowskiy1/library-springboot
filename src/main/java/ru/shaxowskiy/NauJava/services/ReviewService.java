@@ -31,17 +31,21 @@ public class ReviewService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Review> findByBookId(Book book){
-        return reviewRepository.findByBookId(book).orElseThrow(() -> new EntityNotFoundException("Review not found"));
+    public List<Review> findByBookId(Book book) {
+        return reviewRepository.findByBookIdOrderByCreatedAtDesc(book).orElseThrow(() -> new EntityNotFoundException("Review not found"));
     }
 
     @Transactional
     public void addReview(Review review, User user, Book book) {
+        review.setId(null);
+
         review.setCreatedAt(LocalDateTime.now());
         review.setUserId(user);
         review.setBookId(book);
-        log.info("Объект review перед сохранением {}", review);
+        log.info("Объект review перед сохранением: {}", review);
+
         reviewRepository.save(review);
-        log.info("Объект review после сохранения {}", review);
+        log.info("Объект review после сохранения: {}", review);
     }
 }
+

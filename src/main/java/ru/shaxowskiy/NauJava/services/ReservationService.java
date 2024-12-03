@@ -1,6 +1,7 @@
 package ru.shaxowskiy.NauJava.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -54,9 +55,10 @@ public class ReservationService {
     /**
      * Метод резервирования книг, резервации присваиваются айди книги и юзера, статус "Взята"
      * и время резервирования
-     * @param bookId айди желаемой книги
-     * @param userId айди юзера
+     * @param book желаемой книги
+     * @param user  юзера
      */
+    @Transactional
     public void reserveBook(Book book, User user){
         Reservation reservation = new Reservation();
         reservation.setBookId(book);

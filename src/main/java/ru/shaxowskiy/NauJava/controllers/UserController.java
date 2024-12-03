@@ -35,7 +35,6 @@ public class UserController {
         return "registration";
     }
 
-    //@ResponseBody
     @PostMapping("/registration")
     public String registerUser(@ModelAttribute("user") @Valid User user,
                                BindingResult bindingResult, Model model)

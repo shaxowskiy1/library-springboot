@@ -34,7 +34,9 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        log.info("Метод findById user = {}", user);
+        return user;
     }
 
     public User getCurrentUser() {
@@ -51,5 +53,9 @@ public class UserService {
         user.getRoles().clear();
         user.getRoles().add(role);
         userRepository.save(user);
+    }
+
+    public List<User> findByUsernameContaining(String username) {
+        return userRepository.findByUsernameContaining(username);
     }
 }
