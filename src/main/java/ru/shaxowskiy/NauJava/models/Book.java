@@ -39,13 +39,13 @@ public class Book {
     private String author;
 
     //@NotNull(message = "Isbn should not be empty")
-    @Min(value = 13, message = "Isbn should be has a 13 characters")
-    @Max(value = 13, message = "Isbn should be has a 13 characters")
+//    @Min(value = 13, message = "Isbn should be has a 13 characters")
+//    @Max(value = 13, message = "Isbn should be has a 13 characters")
     @Column(name = "isbn")
     private Long isbn;
 
-    @Min(value = 0, message = "Year must be at least 0")
-    @Max(value = 2024, message = "Year must be at most 2024")
+//    @Min(value = 0, message = "Year must be at least 0")
+//    @Max(value = 2024, message = "Year must be at most 2024")
     private String publishedYear;
 
     @Size(max = 1000, message = "Description should not be longer than 1000 characters")

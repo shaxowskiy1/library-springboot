@@ -29,7 +29,20 @@ public class BookService {
         return bookList;
     }
 
+    /**
+     * Поиск всех книги по id
+     * @param id айди книги
+     * @return книга с заданным айди
+     */
     public Book findById(Long id){
         return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book not found"));
+    }
+
+    /**
+     * Сохранение книги в базу данных
+     * @param book книга
+     */
+    public void addBook(Book book) {
+        bookRepository.save(book);
     }
 }

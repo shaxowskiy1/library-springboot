@@ -6,9 +6,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import ru.shaxowskiy.NauJava.models.Book;
+import ru.shaxowskiy.NauJava.models.Category;
 import ru.shaxowskiy.NauJava.repositories.BookRepository;
 import ru.shaxowskiy.NauJava.repositories.CategoryRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +24,16 @@ public class CategoryServiceImpl implements CategoryService {
         this.bookRepository = bookRepository;
         this.categoryRepository = categoryRepository;
         this.platformTransactionManager = platformTransactionManager;
+    }
+
+    /**
+     * Поиск всеъ категорий в БД
+     * @return список категорий
+     */
+    public List<Category> findAll(){
+        List<Category> categories = new ArrayList<>();
+        categoryRepository.findAll().forEach(categories::add);
+        return categories;
     }
 
     /**

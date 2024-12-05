@@ -19,5 +19,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
      */
     Optional<List<Review>> findByBookIdOrderByCreatedAtDesc(Book book);
 
+    /**
+     * Поиск отзывов юзера на переданную в метод книгу
+     * @param user юзер
+     * @param book книга
+     * @return список отзывов
+     */
     Review findByUserIdAndBookId(User user, Book book);
 }

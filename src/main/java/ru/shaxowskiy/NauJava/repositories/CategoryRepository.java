@@ -7,5 +7,9 @@ import ru.shaxowskiy.NauJava.models.Category;
 @RepositoryRestResource(path = "categories")
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 
+    /**
+     * Удаление категории по её названию
+     * @param title название категории
+     */
     void deleteCategoryByTitle(String title);
 }

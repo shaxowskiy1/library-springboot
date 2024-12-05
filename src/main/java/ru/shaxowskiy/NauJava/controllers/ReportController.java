@@ -32,6 +32,13 @@ public class ReportController {
         reportService.generateReportAsync();
         return "Сгенерирован отчёт" + reportRepository.count();
     }
+
+    /**
+     * Предоставляет представление в виде отчёта по его id
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/{id}")
     public Report getReport(@PathVariable("id") int id) throws Exception {
         return reportService.getReport(id);

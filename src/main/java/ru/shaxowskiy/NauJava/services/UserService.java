@@ -27,18 +27,26 @@ public class UserService {
         return userRepository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
+    /**
+     * Поиск списка всех юзеров
+     * @return список юзеров
+     */
     public List<User> findAll() {
+        log.info("Метод findAll в классе UserService: ");
         List<User> listOfUsers = new ArrayList<>();
         userRepository.findAll().forEach(listOfUsers::add);
         return listOfUsers;
     }
 
     public User findById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
-        log.info("Метод findById user = {}", user);
-        return user;
+        log.info("Метод поиска юзера c id={} в методе UserService", id);
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
     }
 
+    /**
+     * Получение данных об аутентифицированном пользователе
+     * @return объект юзера
+     */
     public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -49,13 +57,14 @@ public class UserService {
 
     }
 
+    /**
+     * Смена роли у юзера на переданную в метод
+     * @param user юзер
+     * @param role роль на которую поменять
+     */
     public void assignRole(User user, Role role) {
         user.getRoles().clear();
         user.getRoles().add(role);
         userRepository.save(user);
-    }
-
-    public List<User> findByUsernameContaining(String username) {
-        return userRepository.findByUsernameContaining(username);
     }
 }

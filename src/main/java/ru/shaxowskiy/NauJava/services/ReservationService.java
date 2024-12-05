@@ -121,6 +121,11 @@ public class ReservationService {
         mailSenderService.send(user.getEmail(), subject, message);
     }
 
+    /**
+     * Поиск резерваций у юзера
+     * @param user список резерваций юзера
+     * @return
+     */
     public List<Reservation> findByUserId(User user) {
         return reservationRepository.findByUserId(user);
     }

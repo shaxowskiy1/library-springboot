@@ -31,6 +31,11 @@ public class ReviewService {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * Поиск отзывов у книги
+     * @param book книга
+     * @return список отзывов
+     */
     public List<Review> findByBookId(Book book) {
         return reviewRepository.findByBookIdOrderByCreatedAtDesc(book).orElseThrow(() -> new EntityNotFoundException("Review not found"));
     }

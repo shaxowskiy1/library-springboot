@@ -20,8 +20,8 @@ public class    BookRepositoryCustomImpl implements BookRepositoryCustom{
     }
 
     /**
-     *
-     * @param author ватор книги
+     * Получение списка книг по автору и её названию
+     * @param author автор книги
      * @param title название книги
      * @return
      */
@@ -41,9 +41,9 @@ public class    BookRepositoryCustomImpl implements BookRepositoryCustom{
     }
 
     /**
-     *
+     * Поиск книг по названию категории
      * @param title название категории
-     * @return
+     * @return список книг
      */
     @Override
     public List<Book> findBooksByCategory(String title) {

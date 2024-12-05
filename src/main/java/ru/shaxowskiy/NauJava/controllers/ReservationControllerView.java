@@ -17,6 +17,11 @@ public class ReservationControllerView {
         this.reservationService = reservationService;
     }
 
+    /**
+     * Обрабатывает GET-запрос на страницу со всеми резервациями книг
+     * @param model
+     * @return
+     */
     @GetMapping("/books/view/reserve")
     public String getListReservations(Model model){
         model.addAttribute("reservations", reservationService.findAll());

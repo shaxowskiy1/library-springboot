@@ -157,6 +157,10 @@ public class ReportService {
         return sb.toString();
     }
 
+    /**
+     * Поиск всех книг
+     * @return список книг
+     */
     private List<Book> booksObjectInfo() {
         List<Book> books = new ArrayList<>();
         bookRepository.findAll().forEach(books::add);
@@ -164,6 +168,10 @@ public class ReportService {
         return books;
     }
 
+    /**
+     * подсчет количества юзеров
+     * @return количество юзеров
+     */
     protected Long userCountInfo() {
         return userRepository.count();
     }

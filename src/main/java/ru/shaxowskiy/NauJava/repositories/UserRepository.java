@@ -24,5 +24,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
      */
     User findByActivationCode(String code);
 
-    List<User> findByUsernameContaining(String username);
 }

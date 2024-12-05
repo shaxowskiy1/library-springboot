@@ -44,6 +44,14 @@ public class BookControllerView {
         this.reviewService = reviewService;
     }
 
+    /**
+     * Обрабатывает GET-запрос на отображение списка книг.
+     * Позволяет искать книги по названию.
+     *
+     * @param title  Название книги для поиска (необязательный параметр).
+     * @param model  Модель для передачи данных в представление.
+     * @return Имя представления для отображения списка книг.
+     */
     @GetMapping("/list")
     public String booksListView(@RequestParam(value = "title", required = false) String title, Model model){
         log.info("Показ всех книг ");
@@ -53,6 +61,14 @@ public class BookControllerView {
         return "/books/booksList";
     }
 
+    /**
+     * Обрабатывает GET-запрос на отображение информации о книге по её ID.
+     *
+     * @param model Модель для передачи данных в представление.
+     * @param id    ID книги.
+     * @return Имя представления для отображения информации о книге.
+     * @throws EntityNotFoundException Если книга с указанным ID не найдена.
+     */
     @GetMapping("/{id}")
     public String bookViewId(Model model, @PathVariable("id") Long id){
         log.info("Показ книги по айди");
@@ -69,6 +85,16 @@ public class BookControllerView {
         return "/books/bookViewId";
     }
 
+    /**
+     * Обрабатывает POST-запрос на добавление отзыва к книге.
+     *
+     * @param id         ID книги.
+     * @param review     Отзыв.
+     * @param result     Результат валидации отзыва.
+     * @param model      Модель для передачи данных в представление.
+     * @param principal  Текущий авторизованный пользователь.
+     * @return Имя представления или редирект на страницу книги.
+     */
     @PostMapping("/{id}/review")
     public String submitReview(@PathVariable Long id,
                                @ModelAttribute("review") @Valid Review review,
@@ -97,7 +123,13 @@ public class BookControllerView {
         return "redirect:/books/view/" + id;
     }
 
-
+    /**
+     * Обработчик исключений AccessDeniedException.
+     * Выводит сообщение об ошибке доступа.
+     *
+     * @param model Модель для передачи данных в представление.
+     * @return Имя представления для страницы ошибки.
+     */
     @GetMapping("/error")
     @ExceptionHandler(AccessDeniedException.class)
     public String handleAccessDeniedException(Model model) {
