@@ -8,7 +8,6 @@ import ru.shaxowskiy.NauJava.models.enums.Status;
 import ru.shaxowskiy.NauJava.repositories.BookRepository;
 import ru.shaxowskiy.NauJava.repositories.ReportRepository;
 import ru.shaxowskiy.NauJava.repositories.UserRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,15 +25,13 @@ public class ReportService {
         this.reportRepository = reportRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
-
-
     }
 
     /**
      * Получить все отчёты
      * @return
      */
-    public List<Report> getReports(){
+    public List<Report> findAll(){
         return reportRepository.findAll();
     }
 
@@ -43,10 +40,14 @@ public class ReportService {
      * @param id уникальный идент отчета
      * @return
      */
-    public Report getReport(int id) throws Exception {
+    public Report findById(int id) {
         Optional<Report> foundReport = reportRepository.findById(id);
         if(foundReport.isEmpty()){
-            throw new Exception("Report with this id not found");
+            try {
+                throw new Exception("Report with this id not found");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         return foundReport.get();
     }
@@ -174,5 +175,9 @@ public class ReportService {
      */
     protected Long userCountInfo() {
         return userRepository.count();
+    }
+
+    public long count() {
+        return reportRepository.count();
     }
 }

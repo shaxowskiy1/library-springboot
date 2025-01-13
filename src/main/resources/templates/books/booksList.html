@@ -8,9 +8,9 @@
 <div th:insert="~{fragment :: header}"></div>
 <h2 align="center">Search books in library "Duke"</h2>
 <form method="get" th:action="@{/books/view/list}">
-    <input name="title" placeholder="Find by Title" size="50" type="text" th:value="${title}">
+    <input name="title" placeholder="Find by Title" size="50" type="text" th:value="${title2}">
     <button class="btn btn-info" type="submit">Search</button>
-    <button class="btn btn-info" type="reset" name="title" value="">Reset</button>
+    <button class="btn btn-info" type="reset">Reset</button>
 </form>
 <div th:if="${title.isEmpty()}">
 <table border="1">

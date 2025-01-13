@@ -45,4 +45,8 @@ public class BookService {
     public void addBook(Book book) {
         bookRepository.save(book);
     }
+
+    public List<Book> findByTitleContainingIgnoreCase(String title){
+        return bookRepository.findByTitleContainingIgnoreCase(title);
+    }
 }

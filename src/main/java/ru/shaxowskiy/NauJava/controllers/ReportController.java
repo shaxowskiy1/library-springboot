@@ -1,8 +1,6 @@
 package ru.shaxowskiy.NauJava.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.shaxowskiy.NauJava.models.Report;
 import ru.shaxowskiy.NauJava.repositories.ReportRepository;
@@ -13,12 +11,10 @@ import ru.shaxowskiy.NauJava.services.ReportService;
 public class ReportController {
 
     private ReportService reportService;
-    private ReportRepository reportRepository;
 
     @Autowired
-    public ReportController(ReportService reportService, ReportRepository reportRepository) {
+    public ReportController(ReportService reportService) {
         this.reportService = reportService;
-        this.reportRepository = reportRepository;
     }
 
     /**
@@ -30,7 +26,7 @@ public class ReportController {
     @GetMapping("/generate")
     public String generateReport(){
         reportService.generateReportAsync();
-        return "Сгенерирован отчёт" + reportRepository.count();
+        return "Сгенерирован отчёт" + reportService.count();
     }
 
     /**
@@ -41,6 +37,6 @@ public class ReportController {
      */
     @GetMapping("/{id}")
     public Report getReport(@PathVariable("id") int id) throws Exception {
-        return reportService.getReport(id);
+        return reportService.findById(id);
     }
 }
