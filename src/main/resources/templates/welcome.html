@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Duke Library!</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<h1>Welcome to library Duke</h1>
-<a href="/auth/login" class="button">Sign up</a>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="bg-white p-10 rounded-lg shadow-lg text-center">
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">Welcome to Duke Library!</h1>
+    <p class="text-gray-600 mb-6">Your one-stop destination for all your reading needs. Explore our vast collection of books, journals, and more.</p>
+    <a href="/auth/login" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">Sign Up</a>
+    <div class="mt-4">
+        <p class="text-gray-500">Already have an account?
+            <a href="/auth/login" class="text-blue-500 hover:underline">Log in here</a>.
+        </p>
+    </div>
+</div>
 </body>
 </html>

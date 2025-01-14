@@ -1,11 +1,14 @@
 package ru.shaxowskiy.NauJava.repositories;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 import ru.shaxowskiy.NauJava.models.Book;
+import ru.shaxowskiy.NauJava.models.User;
 
 import java.util.List;
 
@@ -34,5 +37,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return
      */
     List<Book> findByTitleContainingIgnoreCase(String title);
-
 }

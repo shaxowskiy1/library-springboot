@@ -11,6 +11,7 @@
 <p th:text="'Автор и год публикации: ' + ${book.getAuthor()} + ' ' + ${book.getPublishedYear()}"></p>
 <p th:text="'Isbn: ' + ${book.getIsbn()}"></p>
 <p th:text="'Описание: ' + ${book.getDescription()}"></p>
+<p th:text="'Книг осталось: ' + ${book.getQuantity()}"></p>
 
 <form th:action="@{/admin/reserve}" th:method="post">
     <select name="selectedPerson" required>

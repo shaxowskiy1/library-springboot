@@ -2,35 +2,51 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div th:if="${message}">
-    <div th:text="${message}"></div>
-</div>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="bg-white p-8 rounded-lg shadow-md w-96">
+    <h2 class="text-2xl font-bold text-center mb-6">Регистрация</h2>
 
-<form th:method="POST" th:action="@{/auth/registration}" th:object="${user}">
-    <label for="username">Введите логин: </label>
-    <input type="text" th:field="*{username}" id="username"/>
-    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username Error</div>
-    <br>
-    <label for="firstName">Введите имя: </label>
-    <input type="text" th:field="*{firstName}" id="firstName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">firstName Error</div>
-    <br/>
-    <label for="lastName">Введите фамилию: </label>
-    <input type="text" th:field="*{lastName}" id="lastName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">lastName Error</div>
-    <br>
-    <label for="email">Введите почту: </label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</div>
-    <br>
-    <label for="password">Введите пароль: </label>
-    <input type="password" th:field="*{password}" id="password"/>
-    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
-    <br/>
-    <input type="submit" value="Sign up!"/>
-</form>
+    <div th:if="${message}" class="text-red-500 text-center mb-4">
+        <div th:text="${message}"></div>
+    </div>
+
+    <form th:method="POST" th:action="@{/auth/registration}" th:object="${user}" class="space-y-4">
+        <div>
+            <label for="username" class="block mb-1">Введите логин:</label>
+            <input type="text" th:field="*{username}" id="username" class="border border-gray-300 rounded-md p-2 w-full" required />
+            <div class="text-red-500" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username Error</div>
+        </div>
+
+        <div>
+            <label for="firstName" class="block mb-1">Введите имя:</label>
+            <input type="text" th:field="*{firstName}" id="firstName" class="border border-gray-300 rounded-md p-2 w-full" required />
+            <div class="text-red-500" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">firstName Error</div>
+        </div>
+
+        <div>
+            <label for="lastName" class="block mb-1">Введите фамилию:</label>
+            <input type="text" th:field="*{lastName}" id="lastName" class="border border-gray-300 rounded-md p-2 w-full" required />
+            <div class="text-red-500" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">lastName Error</div>
+        </div>
+
+        <div>
+            <label for="email" class="block mb-1">Введите почту:</label>
+            <input type="text" th:field="*{email}" id="email" class="border border-gray-300 rounded-md p-2 w-full" required />
+            <div class="text-red-500" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</div>
+        </div>
+
+        <div>
+            <label for="password" class="block mb-1">Введите пароль:</label>
+            <input type="password" th:field="*{password}" id="password" class="border border-gray-300 rounded-md p-2 w-full" required />
+            <div class="text-red-500" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+        </div>
+
+        <input type="submit" value="Sign up!" class="bg-blue-500 text-white rounded-md p-2 w-full hover:bg-blue-600 transition duration-200 cursor-pointer" />
+    </form>
+</div>
 </body>
 </html>

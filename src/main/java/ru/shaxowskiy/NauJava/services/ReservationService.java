@@ -14,6 +14,7 @@ import ru.shaxowskiy.NauJava.repositories.ReservationRepository;
 import ru.shaxowskiy.NauJava.repositories.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -131,4 +132,7 @@ public class ReservationService {
     }
 
 
+    public Reservation findByBookIdAndUserId(User user, Book book) {
+        return null;
+    }
 }

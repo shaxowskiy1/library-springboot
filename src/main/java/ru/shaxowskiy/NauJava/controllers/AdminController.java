@@ -6,13 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.shaxowskiy.NauJava.models.Book;
+import ru.shaxowskiy.NauJava.models.Reservation;
 import ru.shaxowskiy.NauJava.models.User;
 import ru.shaxowskiy.NauJava.models.enums.Role;
+import ru.shaxowskiy.NauJava.models.enums.StatusReserving;
 import ru.shaxowskiy.NauJava.services.BookService;
 import ru.shaxowskiy.NauJava.services.CategoryServiceImpl;
 import ru.shaxowskiy.NauJava.services.ReservationService;
 import ru.shaxowskiy.NauJava.services.UserService;
+
+import java.util.List;
 
 
 /**
@@ -58,8 +63,8 @@ public class AdminController {
     @GetMapping("/view/reserve/{id}")
     public String bookViewIdForReserve(Model model, @PathVariable("id") Long id,
                                        @RequestParam(value = "username", required = false) String username){
-        log.info("Показ книги по айди для резервирования");
         log.info("Страница для запрашиваемой книги с id {}", id);
+
         Book book = bookService.findById(id);
 
         model.addAttribute("book", book);
@@ -77,25 +82,24 @@ public class AdminController {
      */
     @PostMapping("/reserve")
     public String reserveBook(@RequestParam("selectedPerson") Long selectedPersonId,
-                              @RequestParam("bookId") Long bookId) {
+                              @RequestParam("bookId") Long bookId,
+                              RedirectAttributes redirectAttributes) {
         log.info("Метод reserveBook с параметрами: selectedPersonId={}, bookId={}", selectedPersonId, bookId);
-
+        Book book = bookService.findById(bookId);
         User user = userService.findById(selectedPersonId);
         if (user == null) {
             log.error("Пользователь с ID {} не найден", selectedPersonId);
             return "redirect:/error?message=User not found";
         }
-
-        log.info("Метод reserveBook с параметрами: user={}", user);
-
-        Book book = bookService.findById(bookId);
-        if (book == null) {
-            log.error("Книга с ID {} не найдена", bookId);
-            return "redirect:/error?message=Book not found";
+        Reservation reservationBookOfUser = reservationService.findByBookIdAndUserId(user, book);
+        log.info("Метод reserve запрашивает резервацию книги с айди {}, для человека {}, статус {}", reservationBookOfUser.getBookId(), reservationBookOfUser.getUserId(), reservationBookOfUser.getStatus());
+        if (book.getQuantity() == 0) {
+            redirectAttributes.addFlashAttribute("messageNoBooks", "Количество этой книги равно 0. Пожалуйста, выберите другую книгу.");
+            return "redirect:/admin/view/reserve/" + bookId;
         }
-
-        log.info("Метод reserveBook с параметрами: book={}", book);
         reservationService.reserveBook(book, user);
+        book.setQuantity(book.getQuantity() - 1);
+        bookService.saveBook(book);
         return "redirect:/admin/view/reserve/" + bookId;
     }
 
@@ -112,7 +116,7 @@ public class AdminController {
     public String returnBook(@RequestParam("selectedPerson") Long selectedPersonId,
                              @RequestParam("bookId") Long bookId) {
         log.info("Метод returnBook с параметрами: selectedPersonId={}, bookId={}", selectedPersonId, bookId);
-
+        Book book = bookService.findById(bookId);
         if (selectedPersonId == null || bookId == null) {
             throw new IllegalArgumentException("ID не должен быть null");
         }
@@ -120,6 +124,8 @@ public class AdminController {
         User user = userService.findById(selectedPersonId);
         reservationService.returnBook(bookId, user.getId());
 
+        book.setQuantity(book.getQuantity() + 1);
+        bookService.saveBook(book);
         return "redirect:/admin/view/reserve/" + bookId;
     }
 

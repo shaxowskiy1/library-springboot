@@ -1,59 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>List of books</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Books</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<h1>Список книг</h1>
-<div th:insert="~{fragment :: header}"></div>
-<h2 align="center">Search books in library "Duke"</h2>
-<form method="get" th:action="@{/books/view/list}">
-    <input name="title" placeholder="Find by Title" size="50" type="text" th:value="${title}">
-    <button class="btn btn-info" type="submit">Search</button>
-    <button class="btn btn-info" type="reset" name="title" value="">Reset</button>
-</form>
-<div th:if="${title.isEmpty()}">
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Category</th>
-    </tr>
-    <tr th:each="book : ${books}">
-        <td th:text="${book.getId()}"></td>
-        <td>
-            <a th:href="@{/books/view/{id}(id=${book.getId()})}">
-                <span th:text="${book.getTitle()}"></span>
-            </a>
-        </td>
-        <td th:text="${book.getAuthor()}"></td>
-        <td th:text="${book.category != null ? book.category.title : 'нет категории'}"></td>
-    </tr>
-</table>
-</div>
-<div th:if="${!title.isEmpty()}">
-<table border="1">
-<tr>
-    <th>ID</th>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Category</th>
-</tr>
-<tr th:each="book : ${title}">
-    <td th:text="${book.getId()}"></td>
-    <td>
-        <a th:href="@{/books/view/{id}(id=${book.getId()})}">
-        <span th:text="${book.getTitle()}"></span>
-        </a>
-    </td>
-    <td th:text="${book.getAuthor()}"></td>
-    <td th:text="${book.category != null ? book.category.title : 'нет категории'}"></td>
-</tr>
-</table>
-</div>
-<div th:if="${books != null && books.size() == 0 && title != null && !title.isEmpty()}">
-    <h2>Книги не найдены по запросу: <span th:text="${title}"></span></h2>
+<body class="bg-gray-100">
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6">Список книг</h1>
+    <div th:insert="~{fragment :: header}"></div>
+    <h2 class="text-xl text-center mb-4">Search books in library "Duke"</h2>
+
+    <form method="get" th:action="@{/books/view/list}" class="mb-6 flex justify-center">
+        <input name="title" placeholder="Find by Title" size="50" type="text" th:value="${title}" class="border border-gray-300 rounded-l-md p-2">
+        <button class="bg-blue-500 text-white rounded-r-md p-2 hover:bg-blue-600 transition duration-200" type="submit">Search</button>
+        <button class="bg-gray-300 text-black rounded-md p-2 ml-2 hover:bg-gray-400 transition duration-200" type="reset" name="title" value="">Reset</button>
+    </form>
+
+    <div th:if="${title.isEmpty()}">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+            <tr class="bg-gray-200 text-gray-700">
+                <th class="py-2 px-4 border-b">ID</th>
+                <th class="py-2 px-4 border-b">Title</th>
+                <th class="py-2 px-4 border-b">Author</th>
+                <th class="py-2 px-4 border-b">Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}" class="hover:bg-gray-100">
+                <td class="py-2 px-4 border-b" th:text="${book.getId()}"></td>
+                <td class="py-2 px-4 border-b">
+                    <a th:href="@{/books/view/{id}(id=${book.getId()})}" class="text-blue-500 hover:underline">
+                        <span th:text="${book.getTitle()}"></span>
+                    </a>
+                </td>
+                <td class="py-2 px-4 border-b" th:text="${book.getAuthor()}"></td>
+                <td class="py-2 px-4 border-b" th:text="${book.category != null ? book.category.title : 'нет категории'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${!title.isEmpty()}">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+            <tr class="bg-gray-200 text-gray-700">
+                <th class="py-2 px-4 border-b">ID</th>
+                <th class="py-2 px-4 border-b">Title</th>
+                <th class="py-2 px-4 border-b">Author</th>
+                <th class="py-2 px-4 border-b">Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${title}" class="hover:bg-gray-100">
+                <td class="py-2 px-4 border-b" th:text="${book.getId()}"></td>
+                <td class="py-2 px-4 border-b">
+                    <a th:href="@{/books/view/{id}(id=${book.getId()})}" class="text-blue-500 hover:underline">
+                        <span th:text="${book.getTitle()}"></span>
+                    </a>
+                </td>
+                <td class="py-2 px-4 border-b" th:text="${book.getAuthor()}"></td>
+                <td class="py-2 px-4 border-b" th:text="${book.category != null ? book.category.title : 'нет категории'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${books != null && books.size() == 0 && title != null && !title.isEmpty()}" class="mt-4 text-center">
+        <h2 class="text-lg text-red-600">Книги не найдены по запросу: <span th:text="${title}"></span></h2>
+    </div>
 </div>
 </body>
 </html>
+

@@ -2,50 +2,52 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
 <div th:insert="~{fragment :: header}"></div>
-<p th:text="'Название: ' + ${book.getTitle()}"/>
-<p th:text="'Айди: ' + ${book.getId()}"/>
-<p th:text="'Автор и год публикации: ' + ${book.getAuthor()} + ' ' + ${book.getPublishedYear()}"/>
-<p th:text="'Isbn: ' + ${book.getIsbn()}"/>
-<p th:text="'Описание: ' + ${book.getDescription()}"/>
-<hr>
-<a th:href="@{https://t.me/share/url(url=${url}, text=${shareText})}" target="_blank">Поделиться в Telegram</a>
-<hr>
-<div th:if="${reviews.isEmpty()}">
-    <h2>У этой книги нет отзывов, но вы можете стать первым.</h2>
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg mt-6">
+    <h1 class="text-2xl font-bold mb-4">Book Details</h1>
+
+    <p class="text-lg mb-2" th:text="'Название: ' + ${book.getTitle()}"></p>
+    <p class="text-lg mb-2" th:text="'Айди: ' + ${book.getId()}"></p>
+    <p class="text-lg mb-2" th:text="'Автор и год публикации: ' + ${book.getAuthor()} + ' ' + ${book.getPublishedYear()}"></p>
+    <p class="text-lg mb-2" th:text="'Isbn: ' + ${book.getIsbn()}"></p>
+    <p class="text-lg mb-4" th:text="'Описание: ' + ${book.getDescription()}"></p>
+
+    <hr class="my-4">
+
+    <a th:href="@{https://t.me/share/url(url=${url}, text=${shareText})}" target="_blank" class="text-blue-500 hover:underline mb-4 inline-block">Поделиться в Telegram</a>
+
+    <hr class="my-4">
+
+    <div th:if="${reviews.isEmpty()}" class="text-center text-gray-600 mb-4">
+        <h2 class="text-lg">У этой книги нет отзывов, но вы можете стать первым.</h2>
+    </div>
+
+    <form th:method="POST" th:action="@{/books/view/{id}/review(id=${book.getId()})}" th:object="${review}" class="mb-6">
+        <label for="rating" class="block mb-1">Enter rating (1-5): </label>
+        <input type="number" th:field="*{rating}" id="rating" min="1" max="5" required class="border border-gray-300 rounded-md p-2 mb-2 w-full" />
+        <div class="text-red-500 mb-2" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Rating Error</div>
+
+        <label for="comment" class="block mb-1">Enter comment: </label>
+        <textarea th:field="*{comment}" id="comment" required class="border border-gray-300 rounded-md p-2 mb-2 w-full"></textarea>
+        <div class="text-red-500 mb-2" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</div>
+
+        <input type="submit" value="Submit Review" class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 transition duration-200" />
+    </form>
+
+    <div th:each="review : ${reviews}" class="border-t border-gray-300 pt-4 mb-4">
+        <div class="mb-2">
+            <p class="font-semibold" th:text="'Имя пользователя: ' + ${review.getUser Id().getFirstName()}"></p>
+            <p th:text="'Оценка: ' + ${review.getRating()}"></p>
+            <p th:text="'Текст отзыва: ' + ${review.getComment()}"></p>
+            <p th:text="'Дата создания отзыва: ' + ${review.getCreatedAt()}"></p>
+        </div>
+        <hr class="my-2">
+    </div>
 </div>
-
-
-<form th:method="POST" th:action="@{/books/view/{id}/review(id=${book.getId()})}" th:object="${review}">
-    <label for="rating">Enter rating (1-5): </label>
-    <input type="number" th:field="*{rating}" id="rating" min="1" max="5" required/>
-    <div style="color:red" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Rating Error</div>
-    <br/>
-
-    <label for="comment">Enter comment: </label>
-    <textarea th:field="*{comment}" id="comment" required></textarea>
-    <div style="color:red" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</div>
-    <br/>
-
-    <input type="submit" value="Submit Review"/>
-</form>
-<br><br>
-<div th:each="review : ${reviews}">
-    <a th:text="'Имя пользователя: ' + ${review.getUserId().getFirstName()}"></a>
-    <br>
-    <a th:text="'Оценка: ' + ${review.getRating()}"></a>
-    <br>
-    <a th:text="'Текст отзыва: ' + ${review.getComment()}"></a>
-    <br>
-    <a th:text="'Дата создания отзыва: ' + ${review.getCreatedAt()}"></a>
-    <hr>
-</div>
-
-
-
-
 </body>
 </html>
