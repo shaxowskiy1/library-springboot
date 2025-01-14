@@ -37,4 +37,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return
      */
     List<Book> findByTitleContainingIgnoreCase(String title);
+
+    List<Book> findAllByOrderByIdAsc();
 }

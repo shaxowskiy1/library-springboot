@@ -2,25 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
+<div th:insert="~{fragment :: header}" class="bg-white shadow-md p-4 mb-6"></div>
 
-<div th:insert="~{fragment :: header}"></div>
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Role</th>
-    </tr>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.getId()}"></td>
-        <td>
-            <a th:href="@{/admin/user/{id}(id=${user.getId()})}" th:text="${user.getUsername()}"></a>
-        </td>
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">User  Management</h2>
 
-        <td th:text="${user.getRoles()}"></td>
-    </tr>
-</table>
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+        <thead>
+        <tr class="bg-gray-200 text-gray-700">
+            <th class="py-2 px-4 border-b">ID</th>
+            <th class="py-2 px-4 border-b">Username</th>
+            <th class="py-2 px-4 border-b">Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}" class="hover:bg-gray-100">
+            <td class="py-2 px-4 border-b" th:text="${user.getId()}"></td>
+            <td class="py-2 px-4 border-b">
+                <a th:href="@{/admin/user/{id}(id=${user.getId()})}" class="text-blue-500 hover:underline" th:text="${user.getUsername()}"></a>
+            </td>
+            <td class="py-2 px-4 border-b" th:text="${user.getRoles()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

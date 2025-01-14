@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Reservations</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservations</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<h1>Reservations List</h1>
-<div th:insert="~{fragment :: header}"></div>
-<table border="1">
-  <tr>
-    <th>ID</th>
-    <th>Username</th>
-    <th>Title</th>
-    <th>Status</th>
-  </tr>
-  <tr th:each="reservation : ${reservations}">
-    <td th:text="${reservation.getId()}"></td>
-    <td th:text="${reservation.getUserId().getUsername()}"></td>
-    <td th:text="${reservation.getBookId().getTitle()}"></td>
-    <td th:text="${reservation.getStatus() != null ? reservation.getStatus() : 'нет статуса'}"></td>
-  </tr>
-</table>
+<body class="bg-gray-100 flex flex-col items-center">
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+  <h1 class="text-3xl font-bold text-center mb-6">Reservations List</h1>
+  <div th:insert="~{fragment :: header}"></div>
+
+  <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+    <thead>
+    <tr class="bg-gray-200 text-gray-700">
+      <th class="py-2 px-4 border-b">ID</th>
+      <th class="py-2 px-4 border-b">Username</th>
+      <th class="py-2 px-4 border-b">Title</th>
+      <th class="py-2 px-4 border-b">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}" class="hover:bg-gray-100">
+      <td class="py-2 px-4 border-b" th:text="${reservation.getId()}"></td>
+      <td class="py-2 px-4 border-b" th:text="${reservation.getUser Id().getUsername()}"></td>
+      <td class="py-2 px-4 border-b" th:text="${reservation.getBookId().getTitle()}"></td>
+      <td class="py-2 px-4 border-b" th:text="${reservation.getStatus() != null ? reservation.getStatus() : 'нет статуса'}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 </body>
 </html>

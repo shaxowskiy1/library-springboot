@@ -2,47 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div th:insert="~{fragment :: header}"></div>
-<div th:if="${user == null}">
-    <h2 th:text="${errorMessage}"></h2>
-</div>
-<div>
-    <h2>User Profile</h2>
-    <p>Username: <span th:text="${user.getUsername()}"></span></p>
-    <p>Email: <span th:text="${user.getEmail()}"></span></p>
-    <p>Roles:</p>
-    <ul>
+<body class="bg-gray-100">
+<div th:insert="~{fragment :: header}" class="bg-white shadow-md p-4 mb-6"></div>
+
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div th:if="${user == null}" class="text-red-500 mb-4">
+        <h2 th:text="${errorMessage}"></h2>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-4">User  Profile</h2>
+    <p class="mb-2">Username: <span th:text="${user.getUsername()}"></span></p>
+    <p class="mb-4">Email: <span th:text="${user.getEmail()}"></span></p>
+
+    <p class="font-semibold mb-2">Roles:</p>
+    <ul class="list-disc pl-5 mb-4">
         <li th:each="role : ${user.getRoles()}" th:text="${role.name()}"></li>
     </ul>
-    <form th:action="@{/admin/user/{id}/assign-admin(id=${user.getId()})}" method="post">
-        <button type="submit">Назначить администратором</button>
-    </form>
-    <form th:action="@{/admin/user/{id}/revoke-admin(id=${user.getId()})}" method="post">
-        <button type="submit">Разжаловать администратора</button>
-    </form>
 
-    <hr>
-    <h2>Reservations</h2>
-    <table border="1">
-        <tr>
-            <th>Title</th>
-            <th>Date of reservation</th>
-            <th>Date Return</th>
-            <th>Status</th>
+    <div class="mb-4">
+        <form th:action="@{/admin/user/{id}/assign-admin(id=${user.getId()})}" method="post">
+            <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">Назначить администратором</button>
+        </form>
+        <form th:action="@{/admin/user/{id}/revoke-admin(id=${user.getId()})}" method="post" class="mt-2">
+            <button type="submit" class="bg-red-500 text-white rounded-md px-4 py-2 hover:bg-red-600 transition duration-200">Разжаловать администратора</button>
+        </form>
+    </div>
+
+    <hr class="my-4">
+
+    <h2 class="text-xl font-bold mb-4">Reservations</h2>
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+        <thead>
+        <tr class="bg-gray-200 text-gray-700">
+            <th class="py-2 px-4 border-b">Title</th>
+            <th class="py-2 px-4 border-b">Date of reservation</th>
+            <th class="py-2 px-4 border-b">Date Return</th>
+            <th class="py-2 px-4 border-b">Status</th>
         </tr>
-        <tr th:each="reservation : ${reservationForUser}">
-            <td th:text="${reservation.getBookId().getTitle()}"></td>
-            <td th:text="${reservation.getReservationDate()}"></td>
-            <td th:text="${reservation.getReturnDate() != null ? reservation.getReturnDate() : 'нет даты'}"></td>
-            <td th:text="${reservation.getStatus() != null ? reservation.getStatus() : 'нет статуса' }"></td>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservationForUser }" class="hover:bg-gray-100">
+            <td class="py-2 px-4 border-b" th:text="${reservation.getBookId().getTitle()}"></td>
+            <td class="py-2 px-4 border-b" th:text="${reservation.getReservationDate()}"></td>
+            <td class="py-2 px-4 border-b" th:text="${reservation.getReturnDate() != null ? reservation.getReturnDate() : 'нет даты'}"></td>
+            <td class="py-2 px-4 border-b" th:text="${reservation.getStatus() != null ? reservation.getStatus() : 'нет статуса'}"></td>
         </tr>
+        </tbody>
     </table>
-</div>
-<div th:if="${reservationForUser.isEmpty()}">
-    <h2>Резервации отсутствуют у данного юзера</h2>
+
+    <div th:if="${reservationForUser .isEmpty()}" class="text-red-500 mt-4">
+        <h2>Резервации отсутствуют у данного юзера</h2>
+    </div>
 </div>
 </body>
 </html>

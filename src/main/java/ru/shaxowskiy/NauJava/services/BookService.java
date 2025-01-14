@@ -25,7 +25,7 @@ public class BookService {
      */
     public List<Book> findAll(){
         List<Book> bookList = new ArrayList<>();
-        bookRepository.findAll().forEach(bookList::add);
+        bookRepository.findAllByOrderByIdAsc().forEach(bookList::add);
         return bookList;
     }
 

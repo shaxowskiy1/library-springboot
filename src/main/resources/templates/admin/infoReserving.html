@@ -2,25 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserving</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Quantity</th>
+<body class="bg-gray-100">
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+    <h1 class="text-3xl font-bold mb-6 text-center">Available Books for Reserving</h1>
+
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+        <thead>
+        <tr class="bg-gray-200 text-gray-700">
+            <th class="py-2 px-4 border-b">ID</th>
+            <th class="py-2 px-4 border-b">Title</th>
+            <th class="py-2 px-4 border-b">Quantity</th>
         </tr>
-        <tr th:each="book : ${books}">
-            <td th:text="${book.getId()}"></td>
-            <td>
-                <a th:href="@{/admin/view/reserve/{id}(id=${book.getId()})}">
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}" class="hover:bg-gray-100">
+            <td class="py-2 px-4 border-b" th:text="${book.getId()}"></td>
+            <td class="py-2 px-4 border-b">
+                <a th:href="@{/admin/view/reserve/{id}(id=${book.getId()})}" class="text-blue-500 hover:underline">
                     <span th:text="${book.getTitle()}"></span>
                 </a>
             </td>
-            <td th:text="${book.getQuantity()}"></td>
+            <td class="py-2 px-4 border-b" th:text="${book.getQuantity()}"></td>
         </tr>
+        </tbody>
     </table>
 </div>
 </body>
