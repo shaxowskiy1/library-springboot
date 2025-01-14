@@ -1,6 +1,8 @@
 package ru.shaxowskiy.NauJava.services;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserDetailsService.class);
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private MailSenderService mailSenderService;
@@ -49,7 +52,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         user.setCreatedAt(LocalDateTime.now());
         user.setActivationCode(UUID.randomUUID().toString());
         User savedUser = userRepository.save(user);
-        System.out.println("Saved user: " + savedUser);
+        log.info("User saved with id {} and username {}", savedUser.getId(), savedUser.getUsername());
 
 
         if (!StringUtils.isEmpty(user.getEmail().trim())) {

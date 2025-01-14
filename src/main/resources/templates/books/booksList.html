@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +8,14 @@
 </head>
 <body class="bg-gray-100">
 <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-6">Список книг</h1>
+    <h1 class="text-3xl font-bold mb-4 text-center">Список книг</h1>
     <div th:insert="~{fragment :: header}"></div>
     <h2 class="text-xl text-center mb-4">Search books in library "Duke"</h2>
 
-    <form method="get" th:action="@{/books/view/list}" class="mb-6 flex justify-center">
-        <input name="title" placeholder="Find by Title" size="50" type="text" th:value="${title}" class="border border-gray-300 rounded-l-md p-2">
-        <button class="bg-blue-500 text-white rounded-r-md p-2 hover:bg-blue-600 transition duration-200" type="submit">Search</button>
-        <button class="bg-gray-300 text-black rounded-md p-2 ml-2 hover:bg-gray-400 transition duration-200" type="reset" name="title" value="">Reset</button>
+    <form method="get" th:action="@{/books/view/list}" class="mb-6 flex justify-center space-x-2">
+        <input name="title" placeholder="Find by Title" size="50" type="text" th:value="${title2}" class="border border-gray-300 rounded-md p-2 w-1/2" />
+        <button class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200" type="submit">Search</button>
+        <button class="bg-gray-300 text-black rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200" type="reset">Reset</button>
     </form>
 
     <div th:if="${title.isEmpty()}">
@@ -44,7 +44,7 @@
     </div>
 
     <div th:if="${!title.isEmpty()}">
-        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md mt-4">
             <thead>
             <tr class="bg-gray-200 text-gray-700">
                 <th class="py-2 px-4 border-b">ID</th>
@@ -68,8 +68,8 @@
         </table>
     </div>
 
-    <div th:if="${books != null && books.size() == 0 && title != null && !title.isEmpty()}" class="mt-4 text-center">
-        <h2 class="text-lg text-red-600">Книги не найдены по запросу: <span th:text="${title}"></span></h2>
+    <div th:if="${books != null && books.size() == 0 && title != null && !title.isEmpty()}" class="mt-4 text-center text-red-500">
+        <h2 class="text-lg">Книги не найдены по запросу: <span th:text="${title}"></span></h2>
     </div>
 </div>
 </body>

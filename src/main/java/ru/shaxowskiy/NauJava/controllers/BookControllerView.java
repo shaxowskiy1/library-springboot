@@ -4,21 +4,16 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import ru.shaxowskiy.NauJava.models.Book;
 import ru.shaxowskiy.NauJava.models.Review;
 import ru.shaxowskiy.NauJava.models.User;
-import ru.shaxowskiy.NauJava.repositories.BookRepository;
 import ru.shaxowskiy.NauJava.services.BookService;
-import ru.shaxowskiy.NauJava.services.ReservationService;
 import ru.shaxowskiy.NauJava.services.ReviewService;
 import ru.shaxowskiy.NauJava.services.UserService;
 
@@ -31,14 +26,10 @@ public class BookControllerView {
 
     private final BookService bookService;
     private final ReviewService reviewService;
-    private final ReservationService reservationService;
     private final UserService userService;
-    private BookRepository bookRepository;
 
     @Autowired
-    public BookControllerView(BookRepository bookRepository, ReservationService reservationService, UserService userService, BookService bookService, ReviewService reviewService) {
-        this.bookRepository = bookRepository;
-        this.reservationService = reservationService;
+    public BookControllerView(UserService userService, BookService bookService, ReviewService reviewService) {
         this.userService = userService;
         this.bookService = bookService;
         this.reviewService = reviewService;
@@ -56,7 +47,8 @@ public class BookControllerView {
     public String booksListView(@RequestParam(value = "title", required = false) String title, Model model){
         log.info("Показ всех книг ");
 
-        model.addAttribute("title", bookRepository.findByTitleContainingIgnoreCase(title));
+        model.addAttribute("title2", title);
+        model.addAttribute("title", bookService.findByTitleContainingIgnoreCase(title));
         model.addAttribute("books", bookService.findAll());
         return "/books/booksList";
     }
@@ -72,7 +64,7 @@ public class BookControllerView {
     @GetMapping("/{id}")
     public String bookViewId(Model model, @PathVariable("id") Long id){
         log.info("Показ книги по айди");
-        Book foundBook = bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        Book foundBook = bookService.findById(id);
         model.addAttribute("book", foundBook);
         model.addAttribute("reviews", reviewService.findByBookId(foundBook));
         String currentUrl = "http://localhost:8080/books/view/" + id;

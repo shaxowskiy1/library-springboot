@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@1.9.6/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
+
 <div th:insert="~{fragment :: header}"></div>
-<div class="container mx-auto p-6 bg-white shadow-md rounded-lg mt-6">
+
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4">Book Details</h1>
 
     <p class="text-lg mb-2" th:text="'Название: ' + ${book.getTitle()}"></p>
@@ -17,37 +18,41 @@
     <p class="text-lg mb-2" th:text="'Isbn: ' + ${book.getIsbn()}"></p>
     <p class="text-lg mb-4" th:text="'Описание: ' + ${book.getDescription()}"></p>
 
-    <hr class="my-4">
+    <hr class="mb-4">
 
-    <a th:href="@{https://t.me/share/url(url=${url}, text=${shareText})}" target="_blank" class="text-blue-500 hover:underline mb-4 inline-block">Поделиться в Telegram</a>
+    <a class="text-blue-500 hover:underline mb-4" th:href="@{https://t.me/share/url(url=${url}, text=${shareText})}" target="_blank">Поделиться в Telegram</a>
 
-    <hr class="my-4">
+    <hr class="mb-4">
 
-    <div th:if="${reviews.isEmpty()}" class="text-center text-gray-600 mb-4">
-        <h2 class="text-lg">У этой книги нет отзывов, но вы можете стать первым.</h2>
+    <div th:if="${reviews.isEmpty()}">
+        <h2 class="text-xl text-gray-700">У этой книги нет отзывов, но вы можете стать первым.</h2>
     </div>
 
-    <form th:method="POST" th:action="@{/books/view/{id}/review(id=${book.getId()})}" th:object="${review}" class="mb-6">
-        <label for="rating" class="block mb-1">Enter rating (1-5): </label>
-        <input type="number" th:field="*{rating}" id="rating" min="1" max="5" required class="border border-gray-300 rounded-md p-2 mb-2 w-full" />
-        <div class="text-red-500 mb-2" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Rating Error</div>
+    <form class="mt-4" th:method="POST" th:action="@{/books/view/{id}/review(id=${book.getId()})}" th:object="${review}">
+        <label class="block mb-2" for="rating">Enter rating (1-5): </label>
+        <input class="border p-2 w-full" type="number" th:field="*{rating}" id="rating" min="1" max="5" required/>
+        <div class="text-red-500" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Rating Error</div>
+        <br/>
 
-        <label for="comment" class="block mb-1">Enter comment: </label>
-        <textarea th:field="*{comment}" id="comment" required class="border border-gray-300 rounded-md p-2 mb-2 w-full"></textarea>
-        <div class="text-red-500 mb-2" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</div>
+        <label class="block mb-2" for="comment">Enter comment: </label>
+        <textarea class="border p-2 w-full" th:field="*{comment}" id="comment" required></textarea>
+        <div class="text-red-500" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Comment Error</div>
+        <br/>
 
-        <input type="submit" value="Submit Review" class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 transition duration-200" />
+        <input class="bg-blue-500 text-white p-2 rounded" type="submit" value="Submit Review"/>
     </form>
 
-    <div th:each="review : ${reviews}" class="border-t border-gray-300 pt-4 mb-4">
-        <div class="mb-2">
-            <p class="font-semibold" th:text="'Имя пользователя: ' + ${review.getUser Id().getFirstName()}"></p>
+    <br><br>
+
+    <div th:each="review : ${reviews}">
+        <div class="border-b mb-4 pb-4">
+            <p th:text="'Имя пользователя: ' + ${review.getUserId().getFirstName()}"></p>
             <p th:text="'Оценка: ' + ${review.getRating()}"></p>
             <p th:text="'Текст отзыва: ' + ${review.getComment()}"></p>
             <p th:text="'Дата создания отзыва: ' + ${review.getCreatedAt()}"></p>
         </div>
-        <hr class="my-2">
     </div>
 </div>
+
 </body>
 </html>

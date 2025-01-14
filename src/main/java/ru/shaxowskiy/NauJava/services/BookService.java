@@ -49,4 +49,8 @@ public class BookService {
     public void saveBook(Book book){
         bookRepository.save(book);
     }
+
+    public Object findByTitleContainingIgnoreCase(String title) {
+        return bookRepository.findByTitleContainingIgnoreCase(title);
+    }
 }
